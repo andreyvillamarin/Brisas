@@ -11,6 +11,7 @@ if (isset($_SESSION['user_id'])) {
 }
 
 require_once __DIR__ . '/config_loader.php';
+require_once APP_ROOT . '/app/helpers/Database.php';
 require_once APP_ROOT . '/app/models/Setting.php';
 $settingModel = new Setting();
 $settings = $settingModel->getAllAsAssoc();

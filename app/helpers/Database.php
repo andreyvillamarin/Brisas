@@ -1,6 +1,6 @@
 <?php
 
-// Clase para la conexiÃ³n a la base de datos usando PDO
+// Clase para la conexi¨®n a la base de datos usando PDO
 class Database {
     private static $instance = null;
     private $pdo;
@@ -16,7 +16,10 @@ class Database {
         try {
             $this->pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
         } catch (PDOException $e) {
-            throw new PDOException($e->getMessage(), (int)$e->getCode());
+            // Stop execution and display a clear error message.
+            // This is better for debugging than a generic 500 error.
+            http_response_code(503); // Service Unavailable
+            die("Error de Conexi¨®n a la Base de Datos: " . $e->getMessage());
         }
     }
 

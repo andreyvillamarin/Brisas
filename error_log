@@ -368,3 +368,32 @@ Stack trace:
 #0 /home/qdosnetw/public_html/demos/brisas/login.php(15): Setting->__construct()
 #1 {main}
   thrown in /home/qdosnetw/public_html/demos/brisas/app/models/Setting.php on line 6
+[20-Aug-2025 11:29:33 America/Bogota] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/qdosnetw/public_html/demos/brisas/app/models/Setting.php:6
+Stack trace:
+#0 /home/qdosnetw/public_html/demos/brisas/login.php(15): Setting->__construct()
+#1 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/app/models/Setting.php on line 6
+[20-Aug-2025 11:29:36 America/Bogota] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/qdosnetw/public_html/demos/brisas/app/models/Setting.php:6
+Stack trace:
+#0 /home/qdosnetw/public_html/demos/brisas/login.php(15): Setting->__construct()
+#1 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/app/models/Setting.php on line 6
+[20-Aug-2025 11:29:37 America/Bogota] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/qdosnetw/public_html/demos/brisas/app/models/Setting.php:6
+Stack trace:
+#0 /home/qdosnetw/public_html/demos/brisas/login.php(15): Setting->__construct()
+#1 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/app/models/Setting.php on line 6
+[20-Aug-2025 11:55:04 America/Bogota] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/qdosnetw/public_html/demos/brisas/app/models/Setting.php:6
+Stack trace:
+#0 /home/qdosnetw/public_html/demos/brisas/login.php(15): Setting->__construct()
+#1 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/app/models/Setting.php on line 6
+[20-Aug-2025 11:55:06 America/Bogota] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/qdosnetw/public_html/demos/brisas/app/models/Setting.php:6
+Stack trace:
+#0 /home/qdosnetw/public_html/demos/brisas/login.php(15): Setting->__construct()
+#1 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/app/models/Setting.php on line 6
+[20-Aug-2025 12:11:20 America/Bogota] PHP Fatal error:  Uncaught Error: Undefined constant "APP_ROOT" in /home/qdosnetw/public_html/demos/brisas/login.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/login.php on line 13
