@@ -7,7 +7,7 @@ if (!isset($_SESSION['2fa_user_id']) || isset($_SESSION['user_id'])) {
     exit;
 }
 
-require_once __DIR__ . '/../brisas_secure_configs/main_config.php';
+require_once __DIR__ . '/config_loader.php';
 require_once APP_ROOT . '/app/helpers/Database.php';
 require_once APP_ROOT . '/app/models/User.php';
 require_once APP_ROOT . '/app/libs/GoogleAuthenticator/PHPGangsta/GoogleAuthenticator.php';

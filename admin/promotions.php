@@ -2,10 +2,12 @@
 if (session_status() == PHP_SESSION_NONE) session_start();
 if (!isset($_SESSION['user_id'])) { header('Location: ../login.php'); exit; }
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/../brisas_secure_configs/main_config.php';
+require_once __DIR__ . '/../config_loader.php';
 require_once APP_ROOT . '/app/helpers/Database.php';
 require_once APP_ROOT . '/app/models/Product.php';
 require_once APP_ROOT . '/app/models/Promotion.php';
+require_once APP_ROOT . '/app/models/Setting.php';
+require_once APP_ROOT . '/app/helpers/log_helper.php';
 
 $promotionModel = new Promotion();
 $productModel = new Product();
@@ -13,34 +15,40 @@ $action = $_GET['action'] ?? 'list';
 $pageTitle = 'Gestion de Promociones';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Si la cantidad está vacía o es 0, se guarda como 0.
+    $min_quantity = !empty($_POST['min_quantity']) ? (int)$_POST['min_quantity'] : 0;
+    $max_quantity = !empty($_POST['max_quantity']) ? (int)$_POST['max_quantity'] : 0;
+
     $data = [
         'product_id' => $_POST['product_id'],
         'promo_description' => $_POST['promo_description'],
-        'min_quantity' => $_POST['min_quantity'],
-        'max_quantity' => $_POST['max_quantity'],
+        'min_quantity' => $min_quantity,
+        'max_quantity' => $max_quantity,
         'start_date' => $_POST['start_date'],
         'end_date' => $_POST['end_date']
     ];
 
     if ($_POST['form_action'] === 'create') {
-        $promotionModel->create($data);
-        log_event("Creó la promoción para el producto ID: " . $data['product_id']);
+        $newId = $promotionModel->create($data);
+        log_event("Creó la promoción", "promotion", $newId);
     } elseif ($_POST['form_action'] === 'update') {
         $id = $_POST['id'];
         $promotionModel->update($id, $data);
-        log_event("Actualizó la promoción ID: " . $id);
+        log_event("Actualizó la promoción", "promotion", $id);
     }
     header('Location: promotions.php');
     exit;
 }
 
 if ($action === 'delete' && isset($_GET['id'])) {
-    log_event("Eliminó la promoción ID: " . $_GET['id']);
+    log_event("Eliminó la promoción", "promotion", $_GET['id']);
     $promotionModel->delete($_GET['id']);
     header('Location: promotions.php');
     exit;
 }
 
+$settingModelForHeader = new Setting();
+$settingsForHeader = $settingModelForHeader->getAllAsAssoc();
 include APP_ROOT . '/app/views/admin/layout/header.php';
 ?>
 <div class="container-fluid">
@@ -104,8 +112,8 @@ include APP_ROOT . '/app/views/admin/layout/header.php';
                         <input type="text" class="form-control" name="promo_description" value="<?= htmlspecialchars($promo['promo_description'] ?? '') ?>" required>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 mb-3"><label class="form-label">Mínimo a pedir</label><input type="number" name="min_quantity" class="form-control" value="<?= $promo['min_quantity'] ?? 1 ?>" required></div>
-                        <div class="col-md-6 mb-3"><label class="form-label">Máximo a pedir</label><input type="number" name="max_quantity" class="form-control" value="<?= $promo['max_quantity'] ?? 1 ?>" required></div>
+                        <div class="col-md-6 mb-3"><label class="form-label">Mínimo a pedir (opcional)</label><input type="number" name="min_quantity" class="form-control" value="<?= $promo['min_quantity'] ?? '' ?>" placeholder="0 o en blanco para no aplicar"></div>
+                        <div class="col-md-6 mb-3"><label class="form-label">Máximo a pedir (opcional)</label><input type="number" name="max_quantity" class="form-control" value="<?= $promo['max_quantity'] ?? '' ?>" placeholder="0 o en blanco para no aplicar"></div>
                     </div>
                      <div class="row">
                         <div class="col-md-6 mb-3"><label class="form-label">Fecha de Inicio</label><input type="date" name="start_date" class="form-control" value="<?= $promo['start_date'] ?? '' ?>" required></div>

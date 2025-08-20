@@ -8,9 +8,10 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/../brisas_secure_configs/main_config.php';
+require_once __DIR__ . '/../config_loader.php';
 require_once APP_ROOT . '/app/helpers/Database.php';
 require_once APP_ROOT . '/app/models/Order.php';
+require_once APP_ROOT . '/app/models/Setting.php';
 
 $orderModel = new Order();
 $pageTitle = 'Dashboard';
@@ -23,10 +24,10 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     $redirectUrl = 'index.php?' . ($_SERVER['QUERY_STRING'] ?? '');
 
     if ($action === 'complete') {
-        log_event("Completó el pedido ID: " . $id);
+        log_event("Completó el", "order", $id);
         $orderModel->updateStatus($id, 'completed');
     } elseif ($action === 'archive') {
-        log_event("Archivó el pedido ID: " . $id);
+        log_event("Archivó el", "order", $id);
         $orderModel->updateStatus($id, 'archived');
     }
     header('Location: ' . $redirectUrl);
@@ -46,28 +47,50 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
         $filters['customer_type'] = $_GET['filter'];
     }
     $orders = $orderModel->getOrdersBy($filters);
-    $headerTitle = "Pedidos Filtrados: " . htmlspecialchars(ucfirst($_GET['filter']));
+    
+    $statusTranslations = [
+        'pending' => 'Pendientes',
+        'completed' => 'Completados',
+        'archived' => 'Archivados'
+    ];
+    $filterValue = $_GET['filter'];
+    $displayFilter = $statusTranslations[$filterValue] ?? ucfirst($filterValue);
+    
+    $headerTitle = "Pedidos Filtrados: " . htmlspecialchars($displayFilter);
 } else {
     $selectedDate = $_GET['date'] ?? date('Y-m-d');
     $orders = $orderModel->getOrdersByDate($selectedDate);
     $headerTitle = 'Pedidos para ' . date("d/m/Y", strtotime($selectedDate));
 }
 
+$settingModelForHeader = new Setting();
+$settingsForHeader = $settingModelForHeader->getAllAsAssoc();
 include APP_ROOT . '/app/views/admin/layout/header.php';
 ?>
 
 <div class="container-fluid">
-    <!-- Buscador -->
+    <!-- Buscador y Selector de Fecha -->
     <div class="card mb-4">
         <div class="card-body">
-            <form action="index.php" method="GET" class="row g-3 align-items-center">
+            <div class="row g-3">
+                <!-- Selector de Fecha -->
+                <div class="col-md-4">
+                    <form action="index.php" method="GET" id="date-filter-form">
+                        <label for="date-selector" class="form-label">Ver pedidos para:</label>
+                        <input type="date" class="form-control form-control-lg" id="date-selector" name="date" value="<?= htmlspecialchars($selectedDate) ?>">
+                    </form>
+                </div>
+                <!-- Buscador -->
                 <div class="col-md-8">
-                    <input type="text" class="form-control form-control-lg" name="search" placeholder="Buscar por nombre, ciudad, cédula...">
+                     <form action="index.php" method="GET">
+                        <label for="search-input" class="form-label">Buscar en todos los pedidos:</label>
+                        <div class="input-group">
+                            <input type="text" id="search-input" class="form-control form-control-lg" name="search" placeholder="Buscar por nombre, ciudad, cédula...">
+                            <button type="submit" class="btn btn-primary btn-lg">Buscar</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-md-4 d-grid">
-                    <button type="submit" class="btn btn-primary btn-lg">Buscar</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 
@@ -151,6 +174,12 @@ include APP_ROOT . '/app/views/admin/layout/header.php';
         </div>
     </div>
 </div>
+
+<script>
+document.getElementById('date-selector').addEventListener('change', function() {
+    document.getElementById('date-filter-form').submit();
+});
+</script>
 
 <?php
 include APP_ROOT . '/app/views/admin/layout/footer.php';

@@ -32,9 +32,16 @@ class User {
         try {
             $sql = "INSERT INTO users (username, email, password_hash, role) VALUES (:username, :email, :password_hash, :role)";
             $stmt = $this->db->prepare($sql);
-            $data['password_hash'] = password_hash($data['password'], PASSWORD_DEFAULT);
-            unset($data['password']);
-            return $stmt->execute($data);
+            
+            $params = [
+                ':username' => $data['username'],
+                ':email' => $data['email'],
+                ':password_hash' => password_hash($data['password'], PASSWORD_DEFAULT),
+                ':role' => $data['role']
+            ];
+            
+            $stmt->execute($params);
+            return $this->db->lastInsertId();
         } catch (PDOException $e) {
             error_log("Error creating user: " . $e->getMessage());
             return false;

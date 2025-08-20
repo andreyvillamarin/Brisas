@@ -4,7 +4,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
     die('Acceso denegado. Esta sección es solo para administradores.');
 }
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/../brisas_secure_configs/main_config.php';
+require_once __DIR__ . '/../config_loader.php';
 require_once APP_ROOT . '/app/helpers/Database.php';
 require_once APP_ROOT . '/app/models/Setting.php';
 
@@ -13,50 +13,60 @@ $settingModel = new Setting();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $success = true;
     $errorMessage = null;
+    $oldSettings = $settingModel->getAllAsAssoc();
 
     // Guardar ajustes de texto
-    $textSettings = ['store_status', 'store_message', 'brevo_api_key', 'google_recaptcha_key', 'admin_notification_email', 'brevo_user', 'google_recaptcha_secret'];
+    $textSettings = ['store_status', 'store_message', 'brevo_api_key', 'google_recaptcha_key', 'admin_notification_email', 'brevo_user', 'google_recaptcha_secret', 'sidebar_logo_height'];
     foreach ($textSettings as $key) {
         if (isset($_POST[$key])) {
             if (!$settingModel->updateSetting($key, $_POST[$key])) {
                 $success = false;
                 $errorMessage = "Error al guardar el ajuste: {$key}";
+                break; // Salir del bucle si hay un error
             }
         }
     }
 
-    // Manejar subida de logos
-    $logoKeys = ['logo_frontend_url', 'logo_backend_url'];
-    foreach ($logoKeys as $key) {
-        if (isset($_FILES[$key]) && $_FILES[$key]['error'] == UPLOAD_ERR_OK) {
-            $uploadDir = APP_ROOT . '/uploads/logos/';
-            if (!is_dir($uploadDir) || !is_writable($uploadDir)) {
-                $success = false;
-                $errorMessage = "Error: El directorio de subida de logos no existe o no tiene permisos de escritura.";
-                continue;
-            }
+    // Manejar subida de logos si los ajustes de texto se guardaron bien
+    if ($success) {
+        $logoKeys = ['logo_frontend_url', 'logo_backend_url'];
+        foreach ($logoKeys as $key) {
+            if (isset($_FILES[$key]) && $_FILES[$key]['error'] == UPLOAD_ERR_OK) {
+                $uploadDir = APP_ROOT . '/uploads/logos/';
+                if (!is_dir($uploadDir) || !is_writable($uploadDir)) {
+                    $success = false;
+                    $errorMessage = "Error: El directorio de subida de logos no existe o no tiene permisos de escritura.";
+                    break;
+                }
 
-            $imageName = $key . '-' . uniqid() . '-' . basename($_FILES[$key]['name']);
-            $targetFile = $uploadDir . $imageName;
-            if (move_uploaded_file($_FILES[$key]['tmp_name'], $targetFile)) {
-                $newPath = 'uploads/logos/' . $imageName;
-                if ($settingModel->updateSetting($key, $newPath)) {
-                    $currentSettings = $settingModel->getAllAsAssoc();
-                    $oldLogoPath = APP_ROOT . '/' . ($currentSettings[$key] ?? '');
-                    if ($oldLogoPath !== $targetFile && file_exists($oldLogoPath) && is_file($oldLogoPath)) {
-                        unlink($oldLogoPath);
+                $imageName = $key . '-' . uniqid() . '-' . basename($_FILES[$key]['name']);
+                $targetFile = $uploadDir . $imageName;
+
+                if (move_uploaded_file($_FILES[$key]['tmp_name'], $targetFile)) {
+                    $newPath = 'uploads/logos/' . $imageName;
+                    $oldLogoPath = APP_ROOT . '/' . ($oldSettings[$key] ?? '');
+
+                    if ($settingModel->updateSetting($key, $newPath)) {
+                        // Borrar el logo antiguo solo si la actualización de la BD fue exitosa
+                        if (!empty($oldSettings[$key]) && file_exists($oldLogoPath) && is_file($oldLogoPath)) {
+                            unlink($oldLogoPath);
+                        }
+                    } else {
+                        $success = false;
+                        $errorMessage = "Error al guardar la ruta del logo en la base de datos.";
+                        unlink($targetFile); // Borrar el archivo nuevo si la BD falla
+                        break;
                     }
                 } else {
                     $success = false;
-                    $errorMessage = "Error al guardar la ruta del logo en la base de datos.";
+                    $errorMessage = "Error al mover el archivo subido. Revisa los permisos.";
+                    break;
                 }
-            } else {
+            } elseif (isset($_FILES[$key]) && $_FILES[$key]['error'] != UPLOAD_ERR_NO_FILE) {
                 $success = false;
-                $errorMessage = "Error al mover el archivo subido. Revisa los permisos.";
+                $errorMessage = "Hubo un error al subir el archivo. Código de error: " . $_FILES[$key]['error'];
+                break;
             }
-        } elseif (isset($_FILES[$key]) && $_FILES[$key]['error'] != UPLOAD_ERR_NO_FILE) {
-            $success = false;
-            $errorMessage = "Hubo un error al subir el archivo. Código de error: " . $_FILES[$key]['error'];
         }
     }
 
@@ -67,6 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $settings = $settingModel->getAllAsAssoc();
 $pageTitle = 'Configuración General';
+
+$settingsForHeader = $settings; // Use the already fetched settings
 include APP_ROOT . '/app/views/admin/layout/header.php';
 ?>
 <div class="container-fluid">
@@ -98,13 +110,19 @@ include APP_ROOT . '/app/views/admin/layout/header.php';
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Logo del Frontend</label>
-                        <input type="file" name="logo_frontend_url" class="form-control">
-                        <?php if (!empty($settings['logo_frontend_url'])): ?><img src="../<?= $settings['logo_frontend_url'] ?>" class="mt-2" style="max-height: 50px;"><?php endif; ?>
+                        <input type="file" name="logo_frontend_url" id="logo_frontend_input" class="form-control">
+                        <img id="frontend-logo-preview" src="../<?= htmlspecialchars($settings['logo_frontend_url'] ?? 'assets/img/placeholder.png') ?>" class="mt-2" style="max-height: 50px;">
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Logo del Backend</label>
-                        <input type="file" name="logo_backend_url" class="form-control">
-                        <?php if (!empty($settings['logo_backend_url'])): ?><img src="../<?= $settings['logo_backend_url'] ?>" class="mt-2" style="max-height: 50px; background-color: #343a40; padding: 5px;"><?php endif; ?>
+                        <input type="file" name="logo_backend_url" id="logo_backend_input" class="form-control">
+                        <img id="backend-logo-preview" src="../<?= htmlspecialchars($settings['logo_backend_url'] ?? 'assets/img/placeholder.png') ?>" class="mt-2" style="max-height: 50px; background-color: #343a40; padding: 5px;">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Altura del logo en el menú lateral (en píxeles)</label>
+                        <input type="number" name="sidebar_logo_height" class="form-control" value="<?= htmlspecialchars($settings['sidebar_logo_height'] ?? '50') ?>">
                     </div>
                 </div>
             </div>
@@ -132,19 +150,28 @@ include APP_ROOT . '/app/views/admin/layout/header.php';
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('input[type="file"]').forEach(input => {
-        input.addEventListener('change', function(e) {
-            const previewTarget = document.querySelector(e.target.dataset.preview);
-            if (e.target.files && e.target.files[0] && previewTarget) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    previewTarget.src = event.target.result;
-                    previewTarget.style.display = 'block';
-                }
-                reader.readAsDataURL(e.target.files[0]);
+    const frontendInput = document.getElementById('logo_frontend_input');
+    const frontendPreview = document.getElementById('frontend-logo-preview');
+    const backendInput = document.getElementById('logo_backend_input');
+    const backendPreview = document.getElementById('backend-logo-preview');
+
+    if (frontendInput && frontendPreview) {
+        frontendInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                frontendPreview.src = URL.createObjectURL(file);
             }
         });
-    });
+    }
+
+    if (backendInput && backendPreview) {
+        backendInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                backendPreview.src = URL.createObjectURL(file);
+            }
+        });
+    }
 });
 </script>
 

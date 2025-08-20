@@ -35,7 +35,8 @@ class Product {
     public function create($name, $categoryId, $imageUrl) {
         try {
             $stmt = $this->db->prepare("INSERT INTO products (name, category_id, image_url) VALUES (:name, :category_id, :image_url)");
-            return $stmt->execute(['name' => $name, 'category_id' => $categoryId, 'image_url' => $imageUrl]);
+            $stmt->execute(['name' => $name, 'category_id' => $categoryId, 'image_url' => $imageUrl]);
+            return $this->db->lastInsertId();
         } catch (PDOException $e) {
             error_log("Error creating product: " . $e->getMessage());
             return false;

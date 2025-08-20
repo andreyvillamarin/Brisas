@@ -8,10 +8,12 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/../brisas_secure_configs/main_config.php';
+require_once __DIR__ . '/../config_loader.php';
 require_once APP_ROOT . '/app/helpers/Database.php';
 require_once APP_ROOT . '/app/models/Product.php';
 require_once APP_ROOT . '/app/models/Category.php'; // Necesario para el dropdown
+require_once APP_ROOT . '/app/models/Setting.php';
+require_once APP_ROOT . '/app/helpers/log_helper.php';
 
 $productModel = new Product();
 $categoryModel = new Category(); // Para poblar el select
@@ -41,13 +43,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     switch ($_POST['form_action']) {
         case 'create':
-            $productModel->create($name, $categoryId, $imageUrl);
-            log_event("Creó el producto: " . $name);
+            $newId = $productModel->create($name, $categoryId, $imageUrl);
+            log_event("Creó el producto", "product", $newId);
             break;
         case 'update':
             $currentImage = $_POST['current_image'] ?? null;
             $productModel->update($id, $name, $categoryId, $imageUrl ?? $currentImage);
-            log_event("Actualizó el producto ID: " . $id);
+            log_event("Actualizó el producto", "product", $id);
             break;
     }
     header('Location: products.php');
@@ -57,17 +59,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Lógica para la acción de eliminar
 if ($action === 'delete' && isset($_GET['id'])) {
     $id = $_GET['id'];
+    log_event("Eliminó el producto", "product", $id);
+    
     $product = $productModel->getById($id);
     if ($product && !empty($product['image_url'])) {
         $imageFile = APP_ROOT . '/' . $product['image_url'];
         if (file_exists($imageFile)) unlink($imageFile);
     }
-    log_event("Eliminó el producto ID: " . $id . " y su imagen asociada.");
     $productModel->delete($id);
     header('Location: products.php');
     exit;
 }
 
+$settingModelForHeader = new Setting();
+$settingsForHeader = $settingModelForHeader->getAllAsAssoc();
 include APP_ROOT . '/app/views/admin/layout/header.php';
 ?>
 <div class="container-fluid">
@@ -78,19 +83,14 @@ include APP_ROOT . '/app/views/admin/layout/header.php';
         </div>
         <div class="card mb-3">
             <div class="card-body">
-                <form action="products.php" method="GET">
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="search" placeholder="Buscar producto por nombre..." value="<?= htmlspecialchars($searchTerm ?? '') ?>">
-                        <button class="btn btn-primary" type="submit">Buscar</button>
-                    </div>
-                </form>
+                <input type="text" id="product-search-input" class="form-control" placeholder="Filtrar productos por nombre...">
             </div>
         </div>
         <div class="card">
             <div class="card-body">
                 <table class="table table-striped">
                     <thead><tr><th>Imagen</th><th>Nombre</th><th>Categoría</th><th>Acciones</th></tr></thead>
-                    <tbody>
+                    <tbody id="products-table-body">
                         <?php $products = $productModel->getAll(); ?>
                         <?php if (empty($products)): ?>
                             <tr><td colspan="4" class="text-center">No hay productos creados.</td></tr>
@@ -148,9 +148,9 @@ include APP_ROOT . '/app/views/admin/layout/header.php';
                     <div class="mb-3">
                         <label for="image" class="form-label">Imagen del Producto</label>
                         <input type="file" class="form-control" id="image" name="image" accept="image/*">
-                        <?php if ($isEdit && !empty($product['image_url'])): ?>
-                            <div class="mt-2">Imagen actual: <img src="../<?= htmlspecialchars($product['image_url']) ?>" width="100"></div>
-                        <?php endif; ?>
+                        <div class="mt-2">
+                            <img id="image-preview" src="../<?= htmlspecialchars($product['image_url'] ?? 'assets/img/placeholder.png') ?>" alt="Previsualización" class="category-thumbnail">
+                        </div>
                     </div>
 
                     <a href="products.php" class="btn btn-secondary">Cancelar</a>
@@ -160,6 +160,42 @@ include APP_ROOT . '/app/views/admin/layout/header.php';
         </div>
     <?php endif; ?>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Image preview script
+    const imageInput = document.getElementById('image');
+    const imagePreview = document.getElementById('image-preview');
+    if (imageInput && imagePreview) {
+        imageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                imagePreview.src = URL.createObjectURL(file);
+            }
+        });
+    }
+
+    // Live search script
+    const searchInput = document.getElementById('product-search-input');
+    const tableBody = document.getElementById('products-table-body');
+    if (searchInput && tableBody) {
+        const rows = tableBody.getElementsByTagName('tr');
+        searchInput.addEventListener('input', function() {
+            const searchTerm = searchInput.value.toLowerCase();
+            for (let i = 0; i < rows.length; i++) {
+                const nameCell = rows[i].getElementsByTagName('td')[1]; // 2nd cell is product name
+                if (nameCell) {
+                    const name = nameCell.textContent || nameCell.innerText;
+                    if (name.toLowerCase().indexOf(searchTerm) > -1) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
 <?php
 include APP_ROOT . '/app/views/admin/layout/footer.php';
 ?>

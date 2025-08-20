@@ -10,7 +10,10 @@ if (isset($_SESSION['user_id'])) {
     exit;
 }
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/../brisas_secure_configs/main_config.php';
+require_once __DIR__ . '/config_loader.php';
+require_once APP_ROOT . '/app/models/Setting.php';
+$settingModel = new Setting();
+$settings = $settingModel->getAllAsAssoc();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -19,6 +22,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/../brisas_secure_configs/main_config.
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Panel de Administración</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <?php if (!empty($settings['logo_backend_url'])): ?>
+        <link rel="icon" href="<?= htmlspecialchars($settings['logo_backend_url']) ?>">
+    <?php endif; ?>
     <style>
         :root { --brisas-red: #aa182c; }
         body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background-color: #f8f9fa; }
@@ -30,7 +36,13 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/../brisas_secure_configs/main_config.
 <body>
     <div class="card login-card shadow">
         <div class="card-body p-5">
-            <h3 class="text-center mb-4">Acceso de Administración</h3>
+            <div class="text-center mb-4">
+                <?php if (!empty($settings['logo_frontend_url'])): ?>
+                    <img src="<?= htmlspecialchars($settings['logo_frontend_url']) ?>" alt="Logo" style="max-height: 70px;">
+                <?php else: ?>
+                    <h3 class="mb-0">Acceso de Administración</h3>
+                <?php endif; ?>
+            </div>
             <?php if(isset($_GET['error'])): ?>
                 <div class="alert alert-danger">Usuario o contraseña incorrectos.</div>
             <?php endif; ?>

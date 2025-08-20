@@ -5,9 +5,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
     die('Acceso denegado. Esta sección es solo para administradores.');
 }
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/../brisas_secure_configs/main_config.php';
+require_once __DIR__ . '/../config_loader.php';
 require_once APP_ROOT . '/app/helpers/Database.php';
 require_once APP_ROOT . '/app/models/User.php';
+require_once APP_ROOT . '/app/models/Setting.php';
+require_once APP_ROOT . '/app/helpers/log_helper.php';
 
 $userModel = new User();
 $action = $_GET['action'] ?? 'list';
@@ -22,12 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ];
 
     if ($_POST['form_action'] === 'create') {
-        $userModel->create($data);
-        log_event("Creó el usuario: " . $data['username']);
+        $newId = $userModel->create($data);
+        log_event("Creó el usuario", "user", $newId);
     } elseif ($_POST['form_action'] === 'update') {
         $id = $_POST['id'];
         $userModel->update($id, $data);
-        log_event("Actualizó el usuario ID: " . $id);
+        log_event("Actualizó el usuario", "user", $id);
     }
     header('Location: users.php');
     exit;
@@ -37,13 +39,15 @@ if ($action === 'delete' && isset($_GET['id'])) {
     $idToDelete = $_GET['id'];
     // Un admin no se puede borrar a sí mismo
     if ($idToDelete != $_SESSION['user_id']) {
-        log_event("Eliminó el usuario ID: " . $idToDelete);
+        log_event("Eliminó el usuario", "user", $idToDelete);
         $userModel->delete($idToDelete);
     }
     header('Location: users.php');
     exit;
 }
 
+$settingModelForHeader = new Setting();
+$settingsForHeader = $settingModelForHeader->getAllAsAssoc();
 include APP_ROOT . '/app/views/admin/layout/header.php';
 ?>
 <div class="container-fluid">

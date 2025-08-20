@@ -3,9 +3,10 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/../brisas_secure_configs/main_config.php';
+require_once __DIR__ . '/../config_loader.php';
 require_once APP_ROOT . '/app/helpers/Database.php';
 require_once APP_ROOT . '/app/models/User.php';
+require_once APP_ROOT . '/app/helpers/log_helper.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $userModel = new User();
@@ -26,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['user_role'] = $user['role'];
-            log_event("Inicio de sesión exitoso.");
+            log_event("Inicio de sesión exitoso");
             header('Location: ../admin/');
             exit;
         }

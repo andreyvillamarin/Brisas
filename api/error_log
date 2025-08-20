@@ -1,0 +1,8 @@
+[20-Aug-2025 09:27:05 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined function send_order_emails() in /home/qdosnetw/public_html/demos/brisas/api/submit_order.php:77
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/api/submit_order.php on line 77
+[20-Aug-2025 09:27:45 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined function send_order_emails() in /home/qdosnetw/public_html/demos/brisas/api/submit_order.php:77
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/api/submit_order.php on line 77

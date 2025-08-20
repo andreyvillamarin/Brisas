@@ -1,0 +1,157 @@
+[19-Aug-2025 19:34:53 America/Bogota] PHP Warning:  require_once(/home/qdosnetw/public_html/demos/brisas/app/libs/GoogleAuthenticator/PHPGangsta/GoogleAuthenticator.php): Failed to open stream: No such file or directory in /home/qdosnetw/public_html/demos/brisas/admin/security.php on line 8
+[19-Aug-2025 19:34:53 America/Bogota] PHP Fatal error:  Uncaught Error: Failed opening required '/home/qdosnetw/public_html/demos/brisas/app/libs/GoogleAuthenticator/PHPGangsta/GoogleAuthenticator.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/qdosnetw/public_html/demos/brisas/admin/security.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/security.php on line 8
+[19-Aug-2025 19:37:48 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[19-Aug-2025 19:37:48 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[19-Aug-2025 19:37:48 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[19-Aug-2025 19:37:48 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[19-Aug-2025 19:37:48 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[19-Aug-2025 19:37:48 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[19-Aug-2025 19:43:03 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[19-Aug-2025 19:43:03 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[19-Aug-2025 19:43:03 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[19-Aug-2025 19:43:03 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[19-Aug-2025 19:43:03 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[19-Aug-2025 19:43:03 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[19-Aug-2025 19:46:10 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[19-Aug-2025 19:46:10 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[19-Aug-2025 19:46:10 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[19-Aug-2025 19:46:10 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[19-Aug-2025 19:46:10 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[19-Aug-2025 19:46:10 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[19-Aug-2025 19:46:19 America/Bogota] PHP Warning:  require_once(/home/qdosnetw/public_html/demos/brisas/app/libs/GoogleAuthenticator/PHPGangsta/GoogleAuthenticator.php): Failed to open stream: No such file or directory in /home/qdosnetw/public_html/demos/brisas/admin/security.php on line 8
+[19-Aug-2025 19:46:19 America/Bogota] PHP Fatal error:  Uncaught Error: Failed opening required '/home/qdosnetw/public_html/demos/brisas/app/libs/GoogleAuthenticator/PHPGangsta/GoogleAuthenticator.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/qdosnetw/public_html/demos/brisas/admin/security.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/security.php on line 8
+[20-Aug-2025 06:48:24 America/Bogota] PHP Warning:  require_once(/home/qdosnetw/public_html/demos/brisas/app/libs/GoogleAuthenticator/PHPGangsta/GoogleAuthenticator.php): Failed to open stream: No such file or directory in /home/qdosnetw/public_html/demos/brisas/admin/security.php on line 8
+[20-Aug-2025 06:48:24 America/Bogota] PHP Fatal error:  Uncaught Error: Failed opening required '/home/qdosnetw/public_html/demos/brisas/app/libs/GoogleAuthenticator/PHPGangsta/GoogleAuthenticator.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/qdosnetw/public_html/demos/brisas/admin/security.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/security.php on line 8
+[20-Aug-2025 06:48:52 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined function log_event() in /home/qdosnetw/public_html/demos/brisas/admin/categories.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/categories.php on line 51
+[20-Aug-2025 06:49:08 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined function log_event() in /home/qdosnetw/public_html/demos/brisas/admin/categories.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/categories.php on line 51
+[20-Aug-2025 06:49:15 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined function log_event() in /home/qdosnetw/public_html/demos/brisas/admin/categories.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/categories.php on line 51
+[20-Aug-2025 07:05:04 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 07:05:04 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 07:05:04 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 07:05:04 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 07:07:57 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method Order::getOrdersBy() in /home/qdosnetw/public_html/demos/brisas/admin/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 48
+[20-Aug-2025 07:08:02 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method Order::getOrdersBy() in /home/qdosnetw/public_html/demos/brisas/admin/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 48
+[20-Aug-2025 07:08:09 America/Bogota] Error searching orders: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 07:08:09 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 68
+[20-Aug-2025 07:08:15 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method Order::getOrdersBy() in /home/qdosnetw/public_html/demos/brisas/admin/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 48
+[20-Aug-2025 07:09:34 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method Order::getOrdersBy() in /home/qdosnetw/public_html/demos/brisas/admin/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 48
+[20-Aug-2025 07:13:47 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 68
+[20-Aug-2025 07:13:48 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 68
+[20-Aug-2025 07:13:49 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 68
+[20-Aug-2025 07:13:50 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 68
+[20-Aug-2025 07:13:50 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 68
+[20-Aug-2025 07:13:52 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 68
+[20-Aug-2025 07:14:25 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 68
+[20-Aug-2025 07:14:26 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 68
+[20-Aug-2025 07:20:01 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 07:20:04 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 07:20:05 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 07:20:05 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 07:20:06 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 07:20:07 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 07:20:28 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined function log_event() in /home/qdosnetw/public_html/demos/brisas/admin/categories.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/categories.php on line 51
+[20-Aug-2025 07:48:58 America/Bogota] Error creating promotion: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'max_quantity' cannot be null
+[20-Aug-2025 07:48:58 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined function log_event() in /home/qdosnetw/public_html/demos/brisas/admin/promotions.php:30
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/promotions.php on line 30
+[20-Aug-2025 07:53:20 America/Bogota] Error creating promotion: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'max_quantity' cannot be null
+[20-Aug-2025 07:57:44 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 07:57:45 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 07:57:52 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 08:20:41 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined function log_event() in /home/qdosnetw/public_html/demos/brisas/admin/users.php:26
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/users.php on line 26
+[20-Aug-2025 08:31:07 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined function log_event() in /home/qdosnetw/public_html/demos/brisas/admin/users.php:30
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/users.php on line 30
+[20-Aug-2025 08:40:26 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 08:40:26 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 08:40:26 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 08:40:26 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 08:40:26 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 08:40:44 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 08:40:44 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 08:40:44 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 08:40:44 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 09:16:54 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 09:16:54 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 09:16:54 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 09:16:54 America/Bogota] Error updating setting: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 09:32:12 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 09:32:13 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 09:32:14 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 09:32:17 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 09:32:18 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 09:36:10 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 09:36:11 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 09:36:12 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 09:36:12 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 09:36:13 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 09:36:14 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 09:46:27 America/Bogota] PHP Fatal error:  Uncaught Error: Class "Setting" not found in /home/qdosnetw/public_html/demos/brisas/app/views/admin/layout/header.php:3
+Stack trace:
+#0 /home/qdosnetw/public_html/demos/brisas/admin/index.php(65): include()
+#1 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/app/views/admin/layout/header.php on line 3
+[20-Aug-2025 09:46:30 America/Bogota] PHP Fatal error:  Uncaught Error: Class "Setting" not found in /home/qdosnetw/public_html/demos/brisas/app/views/admin/layout/header.php:3
+Stack trace:
+#0 /home/qdosnetw/public_html/demos/brisas/admin/index.php(65): include()
+#1 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/app/views/admin/layout/header.php on line 3
+[20-Aug-2025 09:46:33 America/Bogota] PHP Fatal error:  Uncaught Error: Class "Setting" not found in /home/qdosnetw/public_html/demos/brisas/app/views/admin/layout/header.php:3
+Stack trace:
+#0 /home/qdosnetw/public_html/demos/brisas/admin/index.php(65): include()
+#1 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/app/views/admin/layout/header.php on line 3
+[20-Aug-2025 09:47:44 America/Bogota] PHP Fatal error:  Uncaught Error: Class "Setting" not found in /home/qdosnetw/public_html/demos/brisas/app/views/admin/layout/header.php:3
+Stack trace:
+#0 /home/qdosnetw/public_html/demos/brisas/admin/index.php(65): include()
+#1 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/app/views/admin/layout/header.php on line 3
+[20-Aug-2025 09:47:44 America/Bogota] PHP Fatal error:  Uncaught Error: Class "Setting" not found in /home/qdosnetw/public_html/demos/brisas/app/views/admin/layout/header.php:3
+Stack trace:
+#0 /home/qdosnetw/public_html/demos/brisas/admin/index.php(65): include()
+#1 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/app/views/admin/layout/header.php on line 3
+[20-Aug-2025 10:26:04 America/Bogota] Error searching orders: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 10:26:04 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 10:26:09 America/Bogota] Error searching orders: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 10:26:09 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 10:26:20 America/Bogota] Error searching orders: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 10:26:20 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77

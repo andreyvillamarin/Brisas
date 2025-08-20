@@ -1,13 +1,13 @@
 <?php
 header('Content-Type: application/json');
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/../brisas_secure_configs/main_config.php';
+require_once __DIR__ . '/../config_loader.php';
 require_once APP_ROOT . '/app/helpers/Database.php';
 require_once APP_ROOT . '/app/models/Order.php';
 
 if (!isset($_GET['id'])) {
     http_response_code(400);
-    echo json_encode(['error' => 'No se proporcionÃ³ ID de pedido']);
+    echo json_encode(['error' => 'No se proporcion¨® ID de pedido']);
     exit;
 }
 

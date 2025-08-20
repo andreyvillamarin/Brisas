@@ -1,9 +1,10 @@
 <?php
 header('Content-Type: application/json');
 
-require_once __DIR__ . '/../../brisas_secure_configs/main_config.php';
+require_once __DIR__ . '/../config_loader.php';
 require_once APP_ROOT . '/app/helpers/Database.php';
 require_once APP_ROOT . '/app/models/Setting.php';
+require_once APP_ROOT . '/app/helpers/email_helper.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 

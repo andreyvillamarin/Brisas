@@ -4,18 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'Admin' ?> - Brisas</title>
+    <title><?= $pageTitle ?? 'Admin' ?> - Brisas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="../assets/admin-style.css" rel="stylesheet">
+    <?php if (!empty($settingsForHeader['logo_backend_url'])): ?>
+        <link rel="icon" href="../<?= htmlspecialchars($settingsForHeader['logo_backend_url']) ?>">
+    <?php endif; ?>
 </head>
 <body>
 <div class="d-flex">
     <nav class="sidebar bg-dark text-white">
         <div class="sidebar-header">
             <a href="<?= $baseUrl ?>/admin/" class="text-white text-decoration-none d-flex align-items-center">
-                <img src="<?= $baseUrl ?>/<?= $settingsForHeader['logo_backend_url'] ?? '' ?>" style="max-height: 40px;" class="me-2">
-                <h4 class="mb-0">Admin Brisas</h4>
+                <?php if (!empty($settingsForHeader['logo_backend_url'])): ?>
+                    <img src="../<?= htmlspecialchars($settingsForHeader['logo_backend_url']) ?>" style="max-height: 70px;" class="me-2">
+                <?php else: ?>
+                    <h4 class="mb-0">Admin Brisas</h4>
+                <?php endif; ?>
             </a>
         </div>
         <ul class="list-unstyled">

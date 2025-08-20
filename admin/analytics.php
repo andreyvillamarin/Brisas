@@ -2,9 +2,10 @@
 if (session_status() == PHP_SESSION_NONE) session_start();
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') { die('Acceso denegado.'); }
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/../brisas_secure_configs/main_config.php';
+require_once __DIR__ . '/../config_loader.php';
 require_once APP_ROOT . '/app/helpers/Database.php';
 require_once APP_ROOT . '/app/models/Analytics.php';
+require_once APP_ROOT . '/app/models/Setting.php';
 
 $analyticsModel = new Analytics();
 
@@ -19,6 +20,9 @@ $ordersByDay = $analyticsModel->getOrdersByDay($startDate, $endDate);
 $ordersByCategory = $analyticsModel->getOrdersByCategory($startDate, $endDate);
 
 $pageTitle = 'Analítica de Ventas';
+
+$settingModelForHeader = new Setting();
+$settingsForHeader = $settingModelForHeader->getAllAsAssoc();
 include APP_ROOT . '/app/views/admin/layout/header.php';
 ?>
 <!-- Chart.js desde CDN -->

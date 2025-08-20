@@ -2,7 +2,7 @@
 if (session_status() == PHP_SESSION_NONE) session_start();
 if (!isset($_SESSION['user_id'])) exit('Acceso denegado');
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/../brisas_secure_configs/main_config.php';
+require_once __DIR__ . '/../config_loader.php';
 require_once APP_ROOT . '/app/helpers/Database.php';
 require_once APP_ROOT . '/app/models/Order.php';
 
@@ -10,7 +10,7 @@ $orderModel = new Order();
 $format = $_GET['format'] ?? 'xlsx';
 $orders = [];
 
-// Reutilizar la lÃ³gica de filtrado y bÃºsqueda del dashboard
+// Reutilizar la l¨®gica de filtrado y b¨²squeda del dashboard
 if (isset($_GET['search']) && !empty($_GET['search'])) {
     $orders = $orderModel->searchOrders($_GET['search']);
 } elseif (isset($_GET['filter'])) {

@@ -37,7 +37,8 @@ class Category {
     public function create($name, $imageUrl) {
         try {
             $stmt = $this->db->prepare("INSERT INTO categories (name, image_url) VALUES (:name, :image_url)");
-            return $stmt->execute(['name' => $name, 'image_url' => $imageUrl]);
+            $stmt->execute(['name' => $name, 'image_url' => $imageUrl]);
+            return $this->db->lastInsertId();
         } catch (PDOException $e) {
             error_log("Error creating category: " . $e->getMessage());
             return false;

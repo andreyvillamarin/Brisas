@@ -1,0 +1,24 @@
+[19-Aug-2025 19:27:54 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method User::findByUsername() in /home/qdosnetw/public_html/demos/brisas/auth/authenticate.php:15
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/auth/authenticate.php on line 15
+[19-Aug-2025 19:28:52 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method User::findByUsername() in /home/qdosnetw/public_html/demos/brisas/auth/authenticate.php:15
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/auth/authenticate.php on line 15
+[19-Aug-2025 19:29:36 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method User::findByUsername() in /home/qdosnetw/public_html/demos/brisas/auth/authenticate.php:21
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/auth/authenticate.php on line 21
+[19-Aug-2025 19:31:11 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined function log_event() in /home/qdosnetw/public_html/demos/brisas/auth/authenticate.php:29
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/auth/authenticate.php on line 29
+[20-Aug-2025 06:41:06 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined function log_event() in /home/qdosnetw/public_html/demos/brisas/auth/authenticate.php:29
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/auth/authenticate.php on line 29
+[20-Aug-2025 06:46:59 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined function log_event() in /home/qdosnetw/public_html/demos/brisas/auth/authenticate.php:29
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/auth/authenticate.php on line 29

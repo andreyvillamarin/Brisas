@@ -17,6 +17,37 @@ class Order {
         }
     }
 
+    public function getOrdersBy($filters) {
+        try {
+            $sql = "SELECT * FROM orders";
+            $whereClauses = [];
+            $params = [];
+
+            if (!empty($filters['status'])) {
+                $whereClauses[] = "status = :status";
+                $params[':status'] = $filters['status'];
+            }
+            if (!empty($filters['customer_type'])) {
+                $whereClauses[] = "customer_type = :customer_type";
+                $params[':customer_type'] = $filters['customer_type'];
+            }
+
+            if (!empty($whereClauses)) {
+                $sql .= " WHERE " . implode(' AND ', $whereClauses);
+            }
+            
+            $sql .= " ORDER BY created_at DESC";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            error_log("Error getting orders by filter: " . $e->getMessage());
+            return [];
+        }
+    }
+
     public function getOrderWithItems($orderId) {
         $order = [];
         try {

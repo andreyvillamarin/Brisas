@@ -51,7 +51,8 @@ class Promotion {
             $sql = "INSERT INTO promotions (product_id, promo_description, min_quantity, max_quantity, start_date, end_date) 
                     VALUES (:product_id, :promo_description, :min_quantity, :max_quantity, :start_date, :end_date)";
             $stmt = $this->db->prepare($sql);
-            return $stmt->execute($data);
+            $stmt->execute($data);
+            return $this->db->lastInsertId();
         } catch (PDOException $e) {
             error_log("Error creating promotion: " . $e->getMessage());
             return false;

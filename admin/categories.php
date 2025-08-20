@@ -8,15 +8,20 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/../brisas_secure_configs/main_config.php';
+require_once __DIR__ . '/../config_loader.php';
 require_once APP_ROOT . '/app/helpers/Database.php';
 require_once APP_ROOT . '/app/models/Category.php';
+require_once APP_ROOT . '/app/models/Setting.php';
+require_once APP_ROOT . '/app/helpers/log_helper.php';
 
 $categoryModel = new Category();
 $action = $_GET['action'] ?? 'list';
 $pageTitle = 'Gestion de Categorías';
 
-// Lógica para manejar acciones POST (crear, actualizar, eliminar)
+$settingModelForHeader = new Setting();
+$settingsForHeader = $settingModelForHeader->getAllAsAssoc();
+
+// Lógica para manejar acciones POST (crear, actualizar)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'] ?? null;
     $name = $_POST['name'] ?? '';
@@ -42,13 +47,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     switch ($_POST['form_action']) {
         case 'create':
-            $categoryModel->create($name, $imageUrl);
-            log_event("Creó la categoría: " . $name);
+            $newId = $categoryModel->create($name, $imageUrl);
+            log_event("Creó la categoría", "category", $newId);
             break;
         case 'update':
             $currentImage = $_POST['current_image'] ?? null;
             $categoryModel->update($id, $name, $imageUrl ?? $currentImage);
-            log_event("Actualizó la categoría ID: " . $id);
+            log_event("Actualizó la categoría", "category", $id);
             break;
     }
     header('Location: categories.php');
@@ -58,6 +63,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Lógica para la acción de eliminar
 if ($action === 'delete' && isset($_GET['id'])) {
     $id = $_GET['id'];
+    // Log before deleting to ensure we can fetch the name
+    log_event("Eliminó la categoría", "category", $id);
+    
+    // Fetch category to get image url for deletion
     $category = $categoryModel->getById($id);
     if ($category && !empty($category['image_url'])) {
         $imageFile = APP_ROOT . '/' . $category['image_url'];
@@ -65,7 +74,6 @@ if ($action === 'delete' && isset($_GET['id'])) {
             unlink($imageFile);
         }
     }
-    log_event("Eliminó la categoría ID: " . $id . " y su imagen asociada.");
     $categoryModel->delete($id);
     header('Location: categories.php');
     exit;
@@ -136,9 +144,9 @@ include APP_ROOT . '/app/views/admin/layout/header.php';
                     <div class="mb-3">
                         <label for="image" class="form-label">Imagen de la Categoría</label>
                         <input type="file" class="form-control" id="image" name="image" accept="image/*">
-                        <?php if ($isEdit && !empty($category['image_url'])): ?>
-                            <div class="mt-2">Imagen actual: <img src="../<?= htmlspecialchars($category['image_url']) ?>" width="100"></div>
-                        <?php endif; ?>
+                        <div class="mt-2">
+                            <img id="image-preview" src="../<?= htmlspecialchars($category['image_url'] ?? 'assets/img/placeholder.png') ?>" alt="Previsualización" class="category-thumbnail">
+                        </div>
                     </div>
 
                     <a href="categories.php" class="btn btn-secondary">Cancelar</a>
@@ -148,6 +156,21 @@ include APP_ROOT . '/app/views/admin/layout/header.php';
         </div>
     <?php endif; ?>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const imageInput = document.getElementById('image');
+    const imagePreview = document.getElementById('image-preview');
+
+    if (imageInput && imagePreview) {
+        imageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                imagePreview.src = URL.createObjectURL(file);
+            }
+        });
+    }
+});
+</script>
 <?php
 // Cargar la plantilla de pie de página
 include APP_ROOT . '/app/views/admin/layout/footer.php';

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../brisas_secure_configs/main_config.php';
+require_once __DIR__ . '/config_loader.php';
 require_once APP_ROOT . '/app/helpers/Database.php';
 require_once APP_ROOT . '/app/models/Category.php';
 require_once APP_ROOT . '/app/models/Promotion.php';
@@ -21,12 +21,15 @@ $settings = $settingModel->getAllAsAssoc();
     <title>Brisas - Catálogo de Pedidos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
+    <?php if (!empty($settings['logo_backend_url'])): ?>
+        <link rel="icon" href="<?= htmlspecialchars($settings['logo_backend_url']) ?>">
+    <?php endif; ?>
 </head>
 <body>
 
     <header class="shadow-sm">
         <div class="container py-3 text-center">
-            <img src="<?= htmlspecialchars($settings['logo_frontend_url'] ?? 'https://via.placeholder.com/200x60.png?text=Logo+Brisas') ?>" alt="Logo Brisas" id="logo-frontend" style="max-height: 60px;">
+            <img src="<?= htmlspecialchars($settings['logo_frontend_url'] ?? 'https://via.placeholder.com/200x60.png?text=Logo+Brisas') ?>" alt="Logo Brisas" id="logo-frontend" style="max-height: 80px;">
         </div>
     </header>
 
@@ -38,29 +41,36 @@ $settings = $settingModel->getAllAsAssoc();
             <!-- Mensaje de tienda abierta/cerrada se insertará aquí -->
         </section>
 
+        <?php if (!empty($promotions)): ?>
         <section id="promociones" class="mb-5">
             <h2 class="section-title"><span>Promociones</span></h2>
-            <div id="promo-cards-container" class="row row-cols-1 row-cols-md-3 g-4">
-                <?php if (empty($promotions)): ?>
-                    <p class="text-center text-muted col-12">No hay promociones disponibles hoy.</p>
-                <?php else: ?>
-                    <?php foreach ($promotions as $promo): ?>
-                        <div class="col">
-                            <div class="card product-card h-100">
-                                <img src="<?= htmlspecialchars($promo['product_image'] ?? 'assets/img/placeholder.png') ?>" class="card-img-top" alt="<?= htmlspecialchars($promo['product_name']) ?>">
-                                <div class="card-body text-center">
-                                    <h6 class="card-title"><?= htmlspecialchars($promo['product_name']) ?></h6>
-                                    <p class="card-text text-danger fw-bold"><?= htmlspecialchars($promo['promo_description']) ?></p>
-                                    <div class="d-flex justify-content-center">
-                                        <input type="number" class="form-control quantity-input" value="0" min="<?= $promo['min_quantity'] ?>" max="<?= $promo['max_quantity'] ?>" data-id="promo_${promo['id']}" data-name="<?= htmlspecialchars($promo['product_name']) ?> (Promo)">
-                                    </div>
+            <div id="promo-cards-container" class="row row-cols-2 row-cols-md-4 g-4">
+                <?php foreach ($promotions as $promo): ?>
+                    <div class="col">
+                        <div class="card product-card h-100">
+                            <img src="<?= htmlspecialchars($promo['product_image'] ?? 'assets/img/placeholder.png') ?>" class="card-img-top" alt="<?= htmlspecialchars($promo['product_name']) ?>">
+                            <div class="card-body text-center">
+                                <h6 class="card-title"><?= htmlspecialchars($promo['product_name']) ?></h6>
+                                <p class="card-text text-danger fw-bold"><?= htmlspecialchars($promo['promo_description']) ?></p>
+                                <div class="input-group" data-promo-description="<?= htmlspecialchars($promo['promo_description']) ?>">
+                                    <input type="number" class="form-control quantity-input" 
+                                           value="<?= (int)($promo['min_quantity'] ?? 1) > 0 ? (int)$promo['min_quantity'] : 1 ?>" 
+                                           min="<?= (int)($promo['min_quantity'] ?? 1) > 0 ? (int)$promo['min_quantity'] : 1 ?>"
+                                           <?php if (!empty($promo['max_quantity']) && (int)$promo['max_quantity'] > 0): ?>
+                                           max="<?= (int)$promo['max_quantity'] ?>"
+                                           <?php endif; ?>
+                                           data-id="<?= htmlspecialchars($promo['product_id']) ?>"
+                                           data-name="<?= htmlspecialchars($promo['product_name']) ?>"
+                                           aria-label="Cantidad">
+                                    <button class="btn btn-primary add-promo-btn" type="button">Agregar</button>
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </section>
+        <?php endif; ?>
 
         <section id="categorias">
             <h2 class="section-title"><span>Categorías</span></h2>
@@ -97,7 +107,7 @@ $settings = $settingModel->getAllAsAssoc();
                     <h3 class="mb-0">Completa tus Datos para Enviar</h3>
                 </div>
                 <div class="card-body">
-                    <form id="order-form">
+                    <form id="order-form" data-recaptcha-key="<?= htmlspecialchars($settings['google_recaptcha_key'] ?? '') ?>">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="customer_type" class="form-label">Tipo de cliente <span class="text-danger">*</span></label>

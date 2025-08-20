@@ -2,10 +2,11 @@
 if (session_status() == PHP_SESSION_NONE) session_start();
 if (!isset($_SESSION['user_id'])) { header('Location: ../login.php'); exit; }
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/../brisas_secure_configs/main_config.php';
+require_once __DIR__ . '/../config_loader.php';
 require_once APP_ROOT . '/app/helpers/Database.php';
 require_once APP_ROOT . '/app/models/Product.php';
 require_once APP_ROOT . '/app/models/Order.php';
+require_once APP_ROOT . '/app/models/Setting.php';
 
 $productModel = new Product();
 $allProducts = $productModel->getAll();
@@ -21,6 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $pageTitle = 'Crear Pedido Manual';
+
+$settingModelForHeader = new Setting();
+$settingsForHeader = $settingModelForHeader->getAllAsAssoc();
 include APP_ROOT . '/app/views/admin/layout/header.php';
 ?>
 <div class="container-fluid">
