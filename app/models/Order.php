@@ -48,6 +48,18 @@ class Order {
         }
     }
 
+    public function updateStatus($orderId, $newStatus) {
+        try {
+            $sql = "UPDATE orders SET status = :status WHERE id = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute(['status' => $newStatus, 'id' => $orderId]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Error updating order status: " . $e->getMessage());
+            return false;
+        }
+    }
+
     public function getOrderWithItems($orderId) {
         $order = [];
         try {
@@ -75,12 +87,19 @@ class Order {
     public function searchOrders($searchTerm) {
         try {
             $sql = "SELECT * FROM orders 
-                    WHERE customer_name LIKE :term 
-                    OR customer_city LIKE :term 
-                    OR customer_id_number LIKE :term
+                    WHERE LOWER(customer_name) LIKE :term1 
+                    OR LOWER(customer_city) LIKE :term2 
+                    OR LOWER(customer_id_number) LIKE :term3
+                    OR LOWER(customer_type) LIKE :term4
                     ORDER BY created_at DESC";
             $stmt = $this->db->prepare($sql);
-            $stmt->execute(['term' => '%' . $searchTerm . '%']);
+            $term = '%' . strtolower($searchTerm) . '%';
+            $stmt->execute([
+                'term1' => $term,
+                'term2' => $term,
+                'term3' => $term,
+                'term4' => $term
+            ]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log("Error searching orders: " . $e->getMessage());

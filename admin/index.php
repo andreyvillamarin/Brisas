@@ -10,6 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 
 require_once __DIR__ . '/../config_loader.php';
 require_once APP_ROOT . '/app/helpers/Database.php';
+require_once APP_ROOT . '/app/helpers/log_helper.php';
 require_once APP_ROOT . '/app/models/Order.php';
 require_once APP_ROOT . '/app/models/Setting.php';
 
@@ -21,7 +22,6 @@ $headerTitle = 'Pedidos';
 if (isset($_GET['action']) && isset($_GET['id'])) {
     $action = $_GET['action'];
     $id = $_GET['id'];
-    $redirectUrl = 'index.php?' . ($_SERVER['QUERY_STRING'] ?? '');
 
     if ($action === 'complete') {
         log_event("Completó el", "order", $id);
@@ -29,7 +29,21 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     } elseif ($action === 'archive') {
         log_event("Archivó el", "order", $id);
         $orderModel->updateStatus($id, 'archived');
+    } elseif ($action === 'restore') {
+        log_event("Restauró el", "order", $id);
+        $orderModel->updateStatus($id, 'pending');
     }
+
+    // Build a clean redirect URL to prevent infinite loops
+    $queryParams = $_GET;
+    unset($queryParams['action']);
+    unset($queryParams['id']);
+    
+    $redirectUrl = 'index.php';
+    if (!empty($queryParams)) {
+        $redirectUrl .= '?' . http_build_query($queryParams);
+    }
+
     header('Location: ' . $redirectUrl);
     exit;
 }
@@ -147,6 +161,9 @@ include APP_ROOT . '/app/views/admin/layout/header.php';
                                             <a href="?action=complete&id=<?= $order['id'] ?>&<?= http_build_query(array_merge($_GET, ['action'=>null, 'id'=>null])) ?>" class="btn btn-sm btn-success">Completar</a>
                                         <?php elseif ($order['status'] === 'completed'): ?>
                                             <a href="?action=archive&id=<?= $order['id'] ?>&<?= http_build_query(array_merge($_GET, ['action'=>null, 'id'=>null])) ?>" class="btn btn-sm btn-dark">Archivar</a>
+                                            <a href="?action=restore&id=<?= $order['id'] ?>&<?= http_build_query(array_merge($_GET, ['action'=>null, 'id'=>null])) ?>" class="btn btn-sm btn-warning">Restaurar</a>
+                                        <?php elseif ($order['status'] === 'archived'): ?>
+                                            <a href="?action=restore&id=<?= $order['id'] ?>&<?= http_build_query(array_merge($_GET, ['action'=>null, 'id'=>null])) ?>" class="btn btn-sm btn-warning">Restaurar</a>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
@@ -169,6 +186,7 @@ include APP_ROOT . '/app/views/admin/layout/header.php';
             </div>
             <div class="modal-body" id="order-details-content"></div>
             <div class="modal-footer">
+                <div id="modal-download-buttons" class="me-auto"></div>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>

@@ -18,7 +18,7 @@
         <div class="sidebar-header">
             <a href="<?= $baseUrl ?>/admin/" class="text-white text-decoration-none d-flex align-items-center">
                 <?php if (!empty($settingsForHeader['logo_backend_url'])): ?>
-                    <img src="../<?= htmlspecialchars($settingsForHeader['logo_backend_url']) ?>" style="max-height: 70px;" class="me-2">
+                    <img src="../<?= htmlspecialchars($settingsForHeader['logo_backend_url']) ?>" style="height: <?= htmlspecialchars($settingsForHeader['sidebar_logo_height'] ?? '50') ?>px;" class="me-2">
                 <?php else: ?>
                     <h4 class="mb-0">Admin Brisas</h4>
                 <?php endif; ?>

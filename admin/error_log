@@ -155,3 +155,78 @@ Stack trace:
 [20-Aug-2025 10:26:09 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
 [20-Aug-2025 10:26:20 America/Bogota] Error searching orders: SQLSTATE[HY093]: Invalid parameter number
 [20-Aug-2025 10:26:20 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 77
+[20-Aug-2025 13:24:31 America/Bogota] Error searching orders: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 13:24:31 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:24:42 America/Bogota] Error searching orders: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 13:24:42 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:24:45 America/Bogota] Error searching orders: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 13:24:45 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:24:46 America/Bogota] Error searching orders: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 13:24:46 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:24:47 America/Bogota] Error searching orders: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 13:24:47 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:24:51 America/Bogota] Error searching orders: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 13:24:51 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:28:18 America/Bogota] Error searching orders: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 13:28:18 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:28:21 America/Bogota] Error searching orders: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 13:28:21 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:28:24 America/Bogota] Error searching orders: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 13:28:24 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:28:25 America/Bogota] Error searching orders: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 13:28:25 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:28:25 America/Bogota] Error searching orders: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 13:28:25 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:28:31 America/Bogota] Error searching orders: SQLSTATE[HY093]: Invalid parameter number
+[20-Aug-2025 13:28:31 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:32:10 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:32:13 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:34:00 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:34:01 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:34:02 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:34:03 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:34:04 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:38:03 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined function log_event() in /home/qdosnetw/public_html/demos/brisas/admin/index.php:27
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 27
+[20-Aug-2025 13:39:17 America/Bogota] PHP Fatal error:  Uncaught Error: Class "SimpleXLSXGen" not found in /home/qdosnetw/public_html/demos/brisas/admin/export.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/export.php on line 48
+[20-Aug-2025 13:40:02 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 80
+[20-Aug-2025 13:41:17 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method Order::updateStatus() in /home/qdosnetw/public_html/demos/brisas/admin/index.php:29
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 29
+[20-Aug-2025 13:41:55 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method Order::updateStatus() in /home/qdosnetw/public_html/demos/brisas/admin/index.php:29
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 29
+[20-Aug-2025 13:45:32 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 81
+[20-Aug-2025 13:45:33 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 81
+[20-Aug-2025 13:46:15 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 81
+[20-Aug-2025 13:46:18 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 81
+[20-Aug-2025 13:46:19 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 81
+[20-Aug-2025 13:46:20 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 81
+[20-Aug-2025 13:46:22 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 81
+[20-Aug-2025 14:02:29 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:02:30 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:02:31 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:02:34 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:02:37 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:02:39 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:02:39 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:02:42 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:02:44 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:02:48 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:02:49 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:02:56 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:04:37 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:04:39 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:06:46 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:06:47 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:07:15 America/Bogota] PHP Fatal error:  Uncaught Error: Class "SimpleXLSXGen" not found in /home/qdosnetw/public_html/demos/brisas/admin/export.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/export.php on line 48
