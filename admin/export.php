@@ -8,9 +8,111 @@ require_once APP_ROOT . '/app/models/Order.php';
 
 $orderModel = new Order();
 $format = $_GET['format'] ?? 'xlsx';
-$orders = [];
+$orderId = $_GET['id'] ?? null;
 
-// Reutilizar la lógica de filtrado y búsqueda del dashboard
+// Si se proporciona un ID, se exporta un solo pedido
+if ($orderId) {
+    $orderData = $orderModel->getOrderWithItems($orderId);
+    if (!$orderData || !$orderData['details']) {
+        exit('Pedido no encontrado.');
+    }
+    
+    $order = $orderData['details'];
+    $items = $orderData['items'];
+    $filename = "pedido_" . $order['id'] . "_" . date('Y-m-d') . "." . $format;
+
+    if ($format === 'xlsx') {
+        require_once APP_ROOT . '/app/libs/SimpleXLSXGen.php';
+        $data = [];
+        // Datos del cliente y pedido
+        $data[] = ['Campo', 'Valor'];
+        $data[] = ['ID Pedido', $order['id']];
+        $data[] = ['Fecha', $order['created_at']];
+        $data[] = ['Cliente', $order['customer_name']];
+        $data[] = ['Tipo Cliente', $order['customer_type']];
+        $data[] = ['Ciudad', $order['customer_city']];
+        $data[] = ['ID Cliente', $order['customer_id_number']];
+        $data[] = ['Email', $order['customer_email'] ?? ''];
+        $data[] = ['Supermercado', $order['mercaderista_supermarket'] ?? ''];
+        $data[] = ['Estado', $order['status']];
+        $data[] = ['','']; // Separador
+        
+        // Cabeceras de productos
+        $data[] = ['Producto', 'Cantidad'];
+        
+        // Items del pedido
+        foreach ($items as $item) {
+            $data[] = [$item['name'], $item['quantity']];
+        }
+
+        \SimpleXLSXGen::fromArray($data)->downloadAs($filename);
+        exit;
+    }
+
+    if ($format === 'pdf') {
+        require_once APP_ROOT . '/app/libs/fpdf/fpdf.php';
+        $pdf = new FPDF('P', 'mm', 'A4');
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Cell(0, 10, 'Detalle del Pedido #' . $order['id'], 0, 1, 'C');
+        $pdf->Ln(10);
+
+        // Informaci贸n del Cliente
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(0, 7, 'Informacion del Cliente', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(40, 6, 'Nombre:', 0);
+        $pdf->Cell(0, 6, iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $order['customer_name']), 0, 1);
+        $pdf->Cell(40, 6, 'Tipo:', 0);
+        $pdf->Cell(0, 6, $order['customer_type'], 0, 1);
+        $pdf->Cell(40, 6, 'Ciudad:', 0);
+        $pdf->Cell(0, 6, iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $order['customer_city']), 0, 1);
+        $pdf->Cell(40, 6, 'Cedula/NIT:', 0);
+        $pdf->Cell(0, 6, $order['customer_id_number'], 0, 1);
+        if (!empty($order['customer_email'])) {
+            $pdf->Cell(40, 6, 'Email:', 0);
+            $pdf->Cell(0, 6, $order['customer_email'], 0, 1);
+        }
+        if (!empty($order['mercaderista_supermarket'])) {
+            $pdf->Cell(40, 6, 'Supermercado:', 0);
+            $pdf->Cell(0, 6, iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $order['mercaderista_supermarket']), 0, 1);
+        }
+
+        $pdf->Ln(5);
+
+        // Informaci贸n del Pedido
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(0, 7, 'Informacion del Pedido', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(40, 6, 'Fecha:', 0);
+        $pdf->Cell(0, 6, date('Y-m-d H:i', strtotime($order['created_at'])), 0, 1);
+        $pdf->Cell(40, 6, 'Estado:', 0);
+        $pdf->Cell(0, 6, $order['status'], 0, 1);
+
+        $pdf->Ln(10);
+        
+        // Tabla de Productos
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(0, 7, 'Productos', 0, 1);
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->Cell(130, 7, 'Producto', 1, 0, 'C');
+        $pdf->Cell(40, 7, 'Cantidad', 1, 1, 'C');
+
+        $pdf->SetFont('Arial', '', 10);
+        foreach ($items as $item) {
+            $pdf->Cell(130, 6, iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $item['name']), 1);
+            $pdf->Cell(40, 6, $item['quantity'], 1, 1, 'C');
+        }
+
+        $pdf->Output('D', $filename);
+        exit;
+    }
+}
+
+// --- L贸gica anterior para exportar listas completas ---
+
+$orders = [];
+// Reutilizar la l贸gica de filtrado y b煤squeda del dashboard
 if (isset($_GET['search']) && !empty($_GET['search'])) {
     $orders = $orderModel->searchOrders($_GET['search']);
 } elseif (isset($_GET['filter'])) {
@@ -40,12 +142,12 @@ if ($format === 'xlsx') {
             $order['customer_type'],
             $order['customer_city'],
             $order['customer_id_number'],
-            $order['customer_email'],
-            $order['mercaderista_supermarket'],
+            $order['customer_email'] ?? '',
+            $order['mercaderista_supermarket'] ?? '',
             $order['status']
         ];
     }
-    SimpleXLSXGen::fromArray($data)->downloadAs($filename);
+    \SimpleXLSXGen::fromArray($data)->downloadAs($filename);
     exit;
 }
 
@@ -80,3 +182,4 @@ if ($format === 'pdf') {
     $pdf->Output('D', $filename);
     exit;
 }
+?>

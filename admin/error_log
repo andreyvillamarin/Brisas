@@ -230,3 +230,23 @@ Stack trace:
 Stack trace:
 #0 {main}
   thrown in /home/qdosnetw/public_html/demos/brisas/admin/export.php on line 48
+[20-Aug-2025 14:46:48 America/Bogota] PHP Fatal error:  Uncaught Error: Class "SimpleXLSXGen" not found in /home/qdosnetw/public_html/demos/brisas/admin/export.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/export.php on line 48
+[20-Aug-2025 14:48:47 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:48:48 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:48:49 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:48:50 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:48:51 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:48:52 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:48:53 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:48:55 America/Bogota] PHP Warning:  Undefined variable $selectedDate in /home/qdosnetw/public_html/demos/brisas/admin/index.php on line 94
+[20-Aug-2025 14:59:07 America/Bogota] PHP Fatal error:  Uncaught Error: Class "SimpleXLSXGen" not found in /home/qdosnetw/public_html/demos/brisas/admin/export.php:150
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/export.php on line 150
+[20-Aug-2025 14:59:14 America/Bogota] PHP Fatal error:  Uncaught Error: Class "SimpleXLSXGen" not found in /home/qdosnetw/public_html/demos/brisas/admin/export.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/qdosnetw/public_html/demos/brisas/admin/export.php on line 48
