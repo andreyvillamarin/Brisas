@@ -1,0 +1,69 @@
+/* Paleta de Colores Brisas */
+:root {
+    --brisas-red: #aa182c;
+    --brisas-dark: #212529;
+    --brisas-light: #f8f9fa;
+    --brisas-white: #ffffff;
+    --brisas-grey: #6c757d;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--brisas-light);
+}
+
+/* Títulos de Sección */
+.section-title {
+    color: var(--brisas-dark);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--brisas-red);
+}
+
+/* Estilo de las Cards */
+.card {
+    border: 1px solid #dee2e6;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+#categorias .card {
+    cursor: pointer;
+}
+
+/* Botones */
+.btn-primary {
+    background-color: var(--brisas-red);
+    border-color: var(--brisas-red);
+}
+
+.btn-primary:hover {
+    background-color: #861323;
+    border-color: #861323;
+}
+
+/* Header y Footer */
+header#main-header {
+    background-color: var(--brisas-white);
+}
+
+footer {
+    background-color: var(--brisas-dark);
+}
