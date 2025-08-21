@@ -44,7 +44,7 @@ if ($orderId) {
                     $order['customer_email'] ?? '',
                     $order['mercaderista_supermarket'] ?? '',
                     $order['status'],
-                    $item['name'],
+                    ($item['name'] . (!empty($item['promotion_text']) ? ' (' . $item['promotion_text'] . ')' : '')),
                     $item['quantity']
                 ];
             }
@@ -120,7 +120,8 @@ if ($orderId) {
 
         $pdf->SetFont('Arial', '', 10);
         foreach ($items as $item) {
-            $pdf->Cell(130, 6, iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $item['name']), 1);
+            $productName = $item['name'] . (!empty($item['promotion_text']) ? ' (' . $item['promotion_text'] . ')' : '');
+            $pdf->Cell(130, 6, iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $productName), 1);
             $pdf->Cell(40, 6, $item['quantity'], 1, 1, 'C');
         }
 
@@ -185,14 +186,14 @@ if ($format === 'xlsx') {
                         $order['customer_email'] ?? '',
                         $order['mercaderista_supermarket'] ?? '',
                         $order['status'],
-                        $item['name'],
+                        ($item['name'] . (!empty($item['promotion_text']) ? ' (' . $item['promotion_text'] . ')' : '')),
                         $item['quantity']
                     ];
                     $isFirstItem = false;
                 } else {
                     $data[] = [
                         '', '', '', '', '', '', '', '', '',
-                        $item['name'],
+                        ($item['name'] . (!empty($item['promotion_text']) ? ' (' . $item['promotion_text'] . ')' : '')),
                         $item['quantity']
                     ];
                 }
@@ -261,9 +262,10 @@ if ($format === 'pdf') {
             $pdf->Cell(30, 7, 'Cantidad', 1, 1, 'C');
             $pdf->SetFont('Arial', '', 10);
             foreach ($order['items'] as $item) {
+                $productName = $item['name'] . (!empty($item['promotion_text']) ? ' (' . $item['promotion_text'] . ')' : '');
                 $x = $pdf->GetX();
                 $y = $pdf->GetY();
-                $pdf->MultiCell(150, 6, iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $item['name']), 1);
+                $pdf->MultiCell(150, 6, iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $productName), 1);
                 $newY = $pdf->GetY();
                 $height = $newY - $y;
                 $pdf->SetXY($x + 150, $y);

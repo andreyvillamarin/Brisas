@@ -59,14 +59,15 @@ try {
     $orderId = $db->lastInsertId();
 
     // Insertar en la tabla 'order_items'
-    $sqlItems = "INSERT INTO order_items (order_id, product_id, quantity) VALUES (:order_id, :product_id, :quantity)";
+    $sqlItems = "INSERT INTO order_items (order_id, product_id, quantity, promotion_text) VALUES (:order_id, :product_id, :quantity, :promotion_text)";
     $stmtItems = $db->prepare($sqlItems);
 
     foreach ($data['cart'] as $productId => $item) {
         $stmtItems->execute([
             ':order_id' => $orderId,
             ':product_id' => $productId,
-            ':quantity' => $item['quantity']
+            ':quantity' => $item['quantity'],
+            ':promotion_text' => $item['promoDescription'] ?? null
         ]);
     }
 

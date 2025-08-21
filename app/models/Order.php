@@ -73,7 +73,7 @@ class Order {
             $order['details'] = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // Obtener productos del pedido
-            $sqlItems = "SELECT oi.quantity, p.name, p.image_url 
+            $sqlItems = "SELECT oi.quantity, oi.promotion_text, p.name, p.image_url 
                          FROM order_items oi 
                          JOIN products p ON oi.product_id = p.id 
                          WHERE oi.order_id = :order_id";
@@ -172,7 +172,7 @@ class Order {
 
             // 3. Fetch all items for these orders
             $placeholders = implode(',', array_fill(0, count($orderIds), '?'));
-            $sqlItems = "SELECT oi.order_id, oi.quantity, p.name 
+            $sqlItems = "SELECT oi.order_id, oi.quantity, oi.promotion_text, p.name 
                          FROM order_items oi 
                          JOIN products p ON oi.product_id = p.id 
                          WHERE oi.order_id IN (" . $placeholders . ")";

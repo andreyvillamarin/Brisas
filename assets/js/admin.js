@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         ${data.details.mercaderista_supermarket ? `<p><strong>Supermercado:</strong> ${data.details.mercaderista_supermarket}</p>` : ''}
                     </div>
                     <div class="col-md-4 text-md-end">
-                        <p><strong>Estado:</strong> <span class="badge bg-info">${data.details.status}</span></p>
+                        <p><strong>Estado:</strong> <span class="badge bg-info">${data.details.status_translated}</span></p>
                         <p><strong>Fecha:</strong> ${orderDate}</p>
                     </div>
                 </div>
@@ -40,7 +40,11 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
 
             data.items.forEach(item => {
-                contentHtml += `<tr><td>${item.name}</td><td>${item.quantity}</td></tr>`;
+                let nameCell = item.name;
+                if (item.promotion_text) {
+                    nameCell += `<br><small class="text-danger">${item.promotion_text}</small>`;
+                }
+                contentHtml += `<tr><td>${nameCell}</td><td>${item.quantity}</td></tr>`;
             });
 
             contentHtml += '</tbody></table>';

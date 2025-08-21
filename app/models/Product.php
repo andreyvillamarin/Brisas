@@ -77,5 +77,15 @@ class Product {
             return [];
         }
     }
+
+    public function delete($id) {
+        try {
+            $stmt = $this->db->prepare("DELETE FROM products WHERE id = :id");
+            return $stmt->execute(['id' => $id]);
+        } catch (PDOException $e) {
+            error_log("Error deleting product: " . $e->getMessage());
+            return false;
+        }
+    }
 }
 ?>
