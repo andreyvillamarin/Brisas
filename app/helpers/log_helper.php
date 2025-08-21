@@ -1,7 +1,7 @@
 <?php
 /**
- * Registra una acci車n en el log de eventos.
- * @param string $action La descripci車n de la acci車n realizada.
+ * Registra una accion en el log de eventos.
+ * @param string $action La descripcion de la accion realizada.
  */
 function log_event($action, $entity_type = null, $entity_id = null) {
     if (session_status() == PHP_SESSION_NONE) session_start();
@@ -35,7 +35,7 @@ function log_event($action, $entity_type = null, $entity_id = null) {
                 case 'promotion':
                     $stmt = $db->prepare("SELECT promo_description FROM promotions WHERE id = :id");
                     $stmt->execute(['id' => $entity_id]);
-                    $name = 'Promoci車n (' . $stmt->fetchColumn() . ')';
+                    $name = 'Promoci嚙踝蕭n (' . $stmt->fetchColumn() . ')';
                     break;
                 case 'order':
                      $description .= " Pedido ID: " . $entity_id; // Para pedidos, el ID es suficiente
