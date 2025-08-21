@@ -59,5 +59,37 @@ class Analytics {
                 ORDER BY total_quantity DESC";
         return $this->getReportData($sql, ['start_date' => $startDate, 'end_date' => $endDate]);
     }
+
+    public function getOrdersPerDayOfMonth($month) {
+        $year = date('Y', strtotime($month));
+        $month_num = date('m', strtotime($month));
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month_num, $year);
+
+        // Initialize array with all days of the month
+        $result = [];
+        for ($day = 1; $day <= $daysInMonth; $day++) {
+            $result[$day] = [
+                'order_day' => $year . '-' . $month_num . '-' . str_pad($day, 2, '0', STR_PAD_LEFT),
+                'total_orders' => 0
+            ];
+        }
+
+        $sql = "SELECT DAY(created_at) as day, COUNT(id) as total_orders
+                FROM orders
+                WHERE YEAR(created_at) = :year AND MONTH(created_at) = :month_num
+                GROUP BY day
+                ORDER BY day ASC";
+        
+        $params = [':year' => $year, ':month_num' => $month_num];
+        $data = $this->getReportData($sql, $params);
+
+        // Merge database data into the result array
+        foreach ($data as $row) {
+            $day = (int)$row['day'];
+            $result[$day]['total_orders'] = (int)$row['total_orders'];
+        }
+
+        return array_values($result);
+    }
 }
 ?>

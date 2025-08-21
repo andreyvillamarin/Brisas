@@ -49,12 +49,14 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
 }
 
 // Lógica de Búsqueda y Filtros
+$selectedDate = $_GET['date'] ?? date('Y-m-d');
+
 if (isset($_GET['search']) && !empty($_GET['search'])) {
     $searchTerm = $_GET['search'];
     $orders = $orderModel->searchOrders($searchTerm);
     $headerTitle = "Resultados para '" . htmlspecialchars($searchTerm) . "'";
 } elseif (isset($_GET['filter'])) {
-    $filters = [];
+    $filters = ['date' => $selectedDate];
     if ($_GET['filter'] === 'pending' || $_GET['filter'] === 'completed' || $_GET['filter'] === 'archived') {
         $filters['status'] = $_GET['filter'];
     } else {
@@ -70,9 +72,8 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     $filterValue = $_GET['filter'];
     $displayFilter = $statusTranslations[$filterValue] ?? ucfirst($filterValue);
     
-    $headerTitle = "Pedidos Filtrados: " . htmlspecialchars($displayFilter);
+    $headerTitle = "Pedidos para " . date("d/m/Y", strtotime($selectedDate)) . " - " . htmlspecialchars($displayFilter);
 } else {
-    $selectedDate = $_GET['date'] ?? date('Y-m-d');
     $orders = $orderModel->getOrdersByDate($selectedDate);
     $headerTitle = 'Pedidos para ' . date("d/m/Y", strtotime($selectedDate));
 }
@@ -111,12 +112,12 @@ include APP_ROOT . '/app/views/admin/layout/header.php';
     <!-- Filtros -->
     <div class="mb-4">
         <strong>Filtros rápidos:</strong>
-        <a href="index.php?filter=pending" class="btn btn-outline-secondary btn-sm">Pendientes</a>
-        <a href="index.php?filter=completed" class="btn btn-outline-secondary btn-sm">Completados</a>
-        <a href="index.php?filter=archived" class="btn btn-outline-secondary btn-sm">Archivados</a>
-        <a href="index.php?filter=Distribuidor o Salsamentaria" class="btn btn-outline-secondary btn-sm">Distribuidores</a>
-        <a href="index.php?filter=Mercaderista" class="btn btn-outline-secondary btn-sm">Mercaderistas</a>
-        <a href="index.php" class="btn btn-link btn-sm">Limpiar filtros</a>
+        <a href="index.php?filter=pending&date=<?= htmlspecialchars($selectedDate) ?>" class="btn btn-outline-secondary btn-sm">Pendientes</a>
+        <a href="index.php?filter=completed&date=<?= htmlspecialchars($selectedDate) ?>" class="btn btn-outline-secondary btn-sm">Completados</a>
+        <a href="index.php?filter=archived&date=<?= htmlspecialchars($selectedDate) ?>" class="btn btn-outline-secondary btn-sm">Archivados</a>
+        <a href="index.php?filter=Distribuidor o Salsamentaria&date=<?= htmlspecialchars($selectedDate) ?>" class="btn btn-outline-secondary btn-sm">Distribuidores</a>
+        <a href="index.php?filter=Mercaderista&date=<?= htmlspecialchars($selectedDate) ?>" class="btn btn-outline-secondary btn-sm">Mercaderistas</a>
+        <a href="index.php?date=<?= htmlspecialchars($selectedDate) ?>" class="btn btn-link btn-sm">Limpiar filtros</a>
     </div>
 
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -136,24 +137,31 @@ include APP_ROOT . '/app/views/admin/layout/header.php';
                 <table class="table table-striped align-middle">
                     <thead>
                         <tr>
-                            <th>Cliente</th><th>Tipo</th><th>Ciudad</th><th>Estado</th><th class="text-end">Acciones</th>
+                            <th>Cliente</th><th>Fecha</th><th>Tipo</th><th>Ciudad</th><th>Estado</th><th class="text-end">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (empty($orders)): ?>
-                            <tr><td colspan="5" class="text-center py-4">No se encontraron pedidos.</td></tr>
+                            <tr><td colspan="6" class="text-center py-4">No se encontraron pedidos.</td></tr>
                         <?php else: ?>
                             <?php foreach ($orders as $order): ?>
                                 <tr>
                                     <td><?= htmlspecialchars($order['customer_name']) ?></td>
+                                    <td><?= date('d/m/Y', strtotime($order['created_at'])) ?></td>
                                     <td><?= htmlspecialchars($order['customer_type']) ?></td>
                                     <td><?= htmlspecialchars($order['customer_city']) ?></td>
                                     <td>
                                         <?php 
                                             $status_classes = ['pending' => 'bg-warning', 'completed' => 'bg-success', 'archived' => 'bg-secondary'];
+                                            $status_translations = [
+                                                'pending' => 'Pendiente',
+                                                'completed' => 'Completado',
+                                                'archived' => 'Archivado'
+                                            ];
                                             $status_class = $status_classes[$order['status']] ?? 'bg-light text-dark';
+                                            $status_text = $status_translations[$order['status']] ?? ucfirst($order['status']);
                                         ?>
-                                        <span class="badge <?= $status_class ?>"><?= ucfirst($order['status']) ?></span>
+                                        <span class="badge <?= $status_class ?>"><?= $status_text ?></span>
                                     </td>
                                     <td class="text-end">
                                         <button class="btn btn-sm btn-info view-details-btn" data-id="<?= $order['id'] ?>">Ver Detalles</button>

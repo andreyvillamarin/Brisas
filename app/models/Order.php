@@ -8,7 +8,7 @@ class Order {
 
     public function getOrdersByDate($date) {
         try {
-            $stmt = $this->db->prepare("SELECT * FROM orders WHERE DATE(created_at) = :order_date ORDER BY created_at DESC");
+            $stmt = $this->db->prepare("SELECT * FROM orders WHERE DATE(created_at) = :order_date AND status != 'archived' ORDER BY created_at DESC");
             $stmt->execute(['order_date' => $date]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -30,6 +30,10 @@ class Order {
             if (!empty($filters['customer_type'])) {
                 $whereClauses[] = "customer_type = :customer_type";
                 $params[':customer_type'] = $filters['customer_type'];
+            }
+            if (!empty($filters['date'])) {
+                $whereClauses[] = "DATE(created_at) = :order_date";
+                $params[':order_date'] = $filters['date'];
             }
 
             if (!empty($whereClauses)) {
@@ -151,6 +155,47 @@ class Order {
             $this->db->rollBack();
             error_log("Error creating manual order: " . $e->getMessage());
             return false;
+        }
+    }
+
+    public function getOrdersByDateWithDetails($date) {
+        try {
+            // 1. Get all orders for the date
+            $orders = $this->getOrdersByDate($date);
+
+            if (empty($orders)) {
+                return [];
+            }
+
+            // 2. Get all order IDs
+            $orderIds = array_column($orders, 'id');
+
+            // 3. Fetch all items for these orders
+            $placeholders = implode(',', array_fill(0, count($orderIds), '?'));
+            $sqlItems = "SELECT oi.order_id, oi.quantity, p.name 
+                         FROM order_items oi 
+                         JOIN products p ON oi.product_id = p.id 
+                         WHERE oi.order_id IN (" . $placeholders . ")";
+            
+            $stmtItems = $this->db->prepare($sqlItems);
+            $stmtItems->execute($orderIds);
+            $items = $stmtItems->fetchAll(PDO::FETCH_ASSOC);
+
+            // 4. Group items by order_id
+            $itemsByOrderId = [];
+            foreach ($items as $item) {
+                $itemsByOrderId[$item['order_id']][] = $item;
+            }
+
+            // 5. Attach items to orders
+            foreach ($orders as &$order) {
+                $order['items'] = $itemsByOrderId[$order['id']] ?? [];
+            }
+
+            return $orders;
+        } catch (PDOException $e) {
+            error_log("Error getting orders by date with details: " . $e->getMessage());
+            return [];
         }
     }
 }
