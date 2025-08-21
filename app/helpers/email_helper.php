@@ -22,6 +22,7 @@ function build_mailer($settings) {
         $mail->isSMTP();
         $mail->Host       = 'smtp-relay.brevo.com';
         $mail->SMTPAuth   = true;
+        $mail->AuthType   = 'LOGIN'; // Forzar autenticación LOGIN
         $mail->Username   = $settings['brevo_user'] ?? ''; // El email de tu cuenta de Brevo
         $mail->Password   = $settings['brevo_api_key'] ?? ''; // La API key v3
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;

@@ -15,18 +15,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errorMessage = null;
     $oldSettings = $settingModel->getAllAsAssoc();
 
-    // Guardar ajustes de texto
-    $textSettings = ['store_status', 'store_message', 'brevo_api_key', 'google_recaptcha_key', 'admin_notification_email', 'brevo_user', 'google_recaptcha_secret', 'sidebar_logo_height', 'sender_email', 'sender_name'];
-    foreach ($textSettings as $key) {
-        if (isset($_POST[$key])) {
-             // No actualiza si el valor está vacío y es una clave (para no sobreescribir con un string vacío si no se quiere cambiar)
-            if ((strpos($key, 'key') !== false || strpos($key, 'secret') !== false) && empty($_POST[$key])) {
-                continue;
-            }
-            if (!$settingModel->updateSetting($key, $_POST[$key])) {
-                $success = false;
-                $errorMessage = "Error al guardar el ajuste: {$key}";
-                break; // Salir del bucle si hay un error
+    // Validación específica para Brevo
+    $newBrevoApiKey = $_POST['brevo_api_key'] ?? '';
+    $newBrevoUser = $_POST['brevo_user'] ?? '';
+    $existingBrevoApiKey = $oldSettings['brevo_api_key'] ?? '';
+
+    // Si se está proporcionando una nueva API key de Brevo o ya existe una y no se está borrando,
+    // el usuario de Brevo no puede estar vacío.
+    if ((!empty($newBrevoApiKey) || !empty($existingBrevoApiKey)) && empty($newBrevoUser)) {
+        $success = false;
+        $errorMessage = "El 'Usuario de Brevo (Email de la cuenta)' es obligatorio si la API Key de Brevo está configurada.";
+    }
+
+    if ($success) {
+        // Guardar ajustes de texto
+        $textSettings = ['store_status', 'store_message', 'brevo_api_key', 'google_recaptcha_key', 'admin_notification_email', 'brevo_user', 'google_recaptcha_secret', 'sidebar_logo_height', 'sender_email', 'sender_name'];
+        foreach ($textSettings as $key) {
+            if (isset($_POST[$key])) {
+                 // No actualiza si el valor está vacío y es una clave (para no sobreescribir con un string vacío si no se quiere cambiar)
+                if ((strpos($key, 'key') !== false || strpos($key, 'secret') !== false) && empty($_POST[$key])) {
+                    continue;
+                }
+                if (!$settingModel->updateSetting($key, $_POST[$key])) {
+                    $success = false;
+                    $errorMessage = "Error al guardar el ajuste: {$key}";
+                    break; // Salir del bucle si hay un error
+                }
             }
         }
     }
@@ -143,7 +157,8 @@ include APP_ROOT . '/app/views/admin/layout/header.php';
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Usuario de Brevo (Email de la cuenta)</label>
-                    <input type="email" name="brevo_user" class="form-control" value="<?= htmlspecialchars($settings['brevo_user'] ?? '') ?>" placeholder="ej: usuario@dominio.com">
+                    <input type="email" name="brevo_user" class="form-control" value="<?= htmlspecialchars($settings['brevo_user'] ?? '') ?>" placeholder="ej: usuario@dominio.com" required>
+                    <small class="form-text text-muted">Este es el email con el que te registraste en Brevo. Es obligatorio para el envío de correos.</small>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Email del Remitente</label>
