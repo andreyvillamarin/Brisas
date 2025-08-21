@@ -16,9 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $oldSettings = $settingModel->getAllAsAssoc();
 
     // Guardar ajustes de texto
-    $textSettings = ['store_status', 'store_message', 'brevo_api_key', 'google_recaptcha_key', 'admin_notification_email', 'brevo_user', 'google_recaptcha_secret', 'sidebar_logo_height'];
+    $textSettings = ['store_status', 'store_message', 'brevo_api_key', 'google_recaptcha_key', 'admin_notification_email', 'brevo_user', 'google_recaptcha_secret', 'sidebar_logo_height', 'sender_email', 'sender_name'];
     foreach ($textSettings as $key) {
         if (isset($_POST[$key])) {
+             // No actualiza si el valor está vacío y es una clave (para no sobreescribir con un string vacío si no se quiere cambiar)
+            if ((strpos($key, 'key') !== false || strpos($key, 'secret') !== false) && empty($_POST[$key])) {
+                continue;
+            }
             if (!$settingModel->updateSetting($key, $_POST[$key])) {
                 $success = false;
                 $errorMessage = "Error al guardar el ajuste: {$key}";
@@ -129,15 +133,42 @@ include APP_ROOT . '/app/views/admin/layout/header.php';
         </div>
 
         <div class="card mt-4">
-            <div class="card-header">Claves de API</div>
+            <div class="card-header">Configuración de Correos y API</div>
             <div class="card-body">
+                <h5 class="card-title">Brevo (para envío de correos)</h5>
                 <div class="mb-3">
-                    <label class="form-label">API Key de Brevo (para correos)</label>
-                    <input type="text" name="brevo_api_key" class="form-control" value="<?= htmlspecialchars($settings['brevo_api_key'] ?? '') ?>">
+                    <label class="form-label">API Key de Brevo</label>
+                    <input type="password" name="brevo_api_key" class="form-control" placeholder="Dejar en blanco para no cambiar" value="">
+                    <small class="form-text text-muted">La clave actual está guardada. Introduce una nueva solo si quieres cambiarla.</small>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Clave del sitio de Google reCAPTCHA v3</label>
+                    <label class="form-label">Usuario de Brevo (Email de la cuenta)</label>
+                    <input type="email" name="brevo_user" class="form-control" value="<?= htmlspecialchars($settings['brevo_user'] ?? '') ?>" placeholder="ej: usuario@dominio.com">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email del Remitente</label>
+                    <input type="email" name="sender_email" class="form-control" value="<?= htmlspecialchars($settings['sender_email'] ?? '') ?>" placeholder="ej: no-reply@tu-dominio.com">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Nombre del Remitente</label>
+                    <input type="text" name="sender_name" class="form-control" value="<?= htmlspecialchars($settings['sender_name'] ?? '') ?>" placeholder="ej: Nombre de tu Tienda">
+                </div>
+                <hr>
+                <h5 class="card-title">Notificaciones</h5>
+                <div class="mb-3">
+                    <label class="form-label">Email para Notificaciones de Administrador</label>
+                    <input type="email" name="admin_notification_email" class="form-control" value="<?= htmlspecialchars($settings['admin_notification_email'] ?? '') ?>" placeholder="ej: admin@tu-dominio.com">
+                </div>
+                <hr>
+                <h5 class="card-title">Google reCAPTCHA v3</h5>
+                <div class="mb-3">
+                    <label class="form-label">Clave del Sitio (Site Key)</label>
                     <input type="text" name="google_recaptcha_key" class="form-control" value="<?= htmlspecialchars($settings['google_recaptcha_key'] ?? '') ?>">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Clave Secreta (Secret Key)</label>
+                    <input type="password" name="google_recaptcha_secret" class="form-control" placeholder="Dejar en blanco para no cambiar" value="">
+                    <small class="form-text text-muted">La clave actual está guardada. Introduce una nueva solo si quieres cambiarla.</small>
                 </div>
             </div>
         </div>
