@@ -119,6 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const quantity = parseInt(input.value, 10);
                 const min = parseInt(input.min, 10);
                 const max = input.hasAttribute('max') ? parseInt(input.max, 10) : Infinity;
+                const step = parseInt(input.step, 10) || 1;
                 
                 if (isNaN(quantity) || quantity < min) {
                     alert(`La cantidad mínima para esta promoción es ${min}.`);
@@ -130,6 +131,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     input.value = max;
                     return;
                 }
+                if (quantity % step !== 0) {
+                    alert(`La cantidad para esta promoción debe ser un múltiplo de ${step}.`);
+                    input.value = min; // Reset to the minimum valid value
+                    return;
+                }
 
                 const productId = input.dataset.id;
                 const productName = input.dataset.name;
@@ -137,12 +143,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (quantity > 0) {
                     if (mainCart[productId]) {
+                        // If promo already in cart, just add quantity.
+                        // The rules (min, step) are already stored.
                         mainCart[productId].quantity += quantity;
                     } else {
                         mainCart[productId] = { 
                             name: productName, 
                             quantity: quantity,
-                            promoDescription: promoDescription
+                            promoDescription: promoDescription,
+                            min: min,
+                            step: step
                         };
                     }
                     renderMainCart();
@@ -165,15 +175,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const target = e.target;
         const productId = target.dataset.id;
 
+        if (!productId) return; // Ignore clicks on non-button areas
+
         if (target.classList.contains('remove-item-btn')) {
             delete mainCart[productId];
             renderMainCart();
         } else if (target.classList.contains('edit-item-btn')) {
             const row = target.closest('tr');
             const quantityCell = row.children[1];
-            const currentQuantity = quantityCell.textContent;
+            const item = mainCart[productId];
             
-            quantityCell.innerHTML = `<input type="number" class="form-control form-control-sm quantity-edit-input" value="${currentQuantity}" min="1">`;
+            const min = item.min || 1;
+            const step = item.step || 1;
+
+            quantityCell.innerHTML = `<input type="number" class="form-control form-control-sm quantity-edit-input" value="${item.quantity}" min="${min}" step="${step}">`;
             
             target.textContent = 'Guardar';
             target.classList.remove('edit-item-btn', 'btn-secondary');
@@ -183,8 +198,19 @@ document.addEventListener('DOMContentLoaded', function() {
             const input = row.querySelector('.quantity-edit-input');
             let newQuantity = parseInt(input.value, 10);
 
-            if (isNaN(newQuantity) || newQuantity < 1) {
-                newQuantity = 1; // Opcional: manejar el error de otra forma
+            const min = parseInt(input.min, 10);
+            const step = parseInt(input.step, 10);
+
+            if (isNaN(newQuantity) || newQuantity < min) {
+                alert(`La cantidad no puede ser menor que ${min}.`);
+                renderMainCart(); // Re-render to cancel edit
+                return;
+            }
+
+            if (newQuantity % step !== 0) {
+                alert(`La cantidad debe ser un múltiplo de ${step}.`);
+                renderMainCart(); // Re-render to cancel edit
+                return;
             }
             
             mainCart[productId].quantity = newQuantity;
