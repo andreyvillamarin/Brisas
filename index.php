@@ -56,6 +56,7 @@ $settings = $settingModel->getAllAsAssoc();
                                     <input type="number" class="form-control quantity-input" 
                                            value="<?= (int)($promo['min_quantity'] ?? 1) > 0 ? (int)$promo['min_quantity'] : 1 ?>" 
                                            min="<?= (int)($promo['min_quantity'] ?? 1) > 0 ? (int)$promo['min_quantity'] : 1 ?>"
+                                           step="<?= (int)($promo['min_quantity'] ?? 1) > 0 ? (int)$promo['min_quantity'] : 1 ?>"
                                            <?php if (!empty($promo['max_quantity']) && (int)$promo['max_quantity'] > 0): ?>
                                            max="<?= (int)$promo['max_quantity'] ?>"
                                            <?php endif; ?>
